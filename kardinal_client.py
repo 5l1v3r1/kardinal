@@ -1,3 +1,4 @@
+from kpm import kpm
 import socket
 import os
 import avalon_framework as avalon
@@ -28,12 +29,12 @@ class command_interpreter:
 
 
 def upgrade_packages():
-    print("upgrade")
-    pass
+    kobj.upgrade_all()
 
 
 s0 = sockethadler()
 ci = command_interpreter()
+kobj = kpm()
 
 while True:
     ci.process_command(s0.expect_command())
