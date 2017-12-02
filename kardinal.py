@@ -1,22 +1,46 @@
+import threading
 import socket
+import socketserver
+
 from node import Node
 
-
-class sockethadler:
-
-    def __init__(self):
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.s.bind((socket.gethostname(), 10000))
-        self.s.listen(30)
-
-    def expect_connections(self):
-        (clientsocket, address) = socket.accept()
-        return Node(clientsocket, address)
+#### GLOBAL CONSTANTS ####
+LOCALADDR = ("localhost", 12345)
 
 
-s0 = sockethadler()
+class ThreadedCCServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    pass
 
 
-while True:
-    nodes_list.append(s0.expect_connections())
+#### MAIN FUNCTION ####
+
+def main ():
+    server = ThreadedCCServer(LOCALADDR, Node)
+    ip, port = server.server_address
+
+    main_thread = threading.Thread(target=server.serve_forever)
+    main_thread.setDaemon(True)
+    main_thread.start()
+
+    print("Server loop now running")
+
+    # connect to the Server
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect((ip, port))
+
+    # send test data
+    msg = "Hello world"
+    sent_len = sock.send(msg.encode("utf-8"))
+    print("Sent {}".format(msg))
+
+    # receive test data
+    resp = sock.recv(1024)
+    print("Received {}".format(resp))
+
+    #clean up
+    sock.close()
+    server.socket.close()
+
+
+if __name__ == "__main__":
+    main

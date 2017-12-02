@@ -1,13 +1,11 @@
-class Node:
+import threading
+import socketserver
 
-    def __init__(self, sock, addr):
-        self.sock = sock
-        self.addr = addr
-        pass
+class Node(socketserver.BaseRequestHandler):
 
-    def send_command(self, command):
-        self.sock.send(command.encode("utf-8"))
+    def handle(self):
+        data = self.request.recv(1024)
+        ct = threading.currentThread()
+        resp = "{}: {}".format(ct.getName(), data)
+        self.request.send(resp.encode("utf-8"))
         return
-
-    def upgrade(self):
-        self.sock.send("UPGRADE".encode("utf-8"))
