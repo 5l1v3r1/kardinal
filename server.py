@@ -29,6 +29,7 @@ class Server(threading.Thread):
         self.shutdown_flag = threading.Event()
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.server.bind(self.localaddr)
         self.server.listen(10)
 

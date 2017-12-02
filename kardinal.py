@@ -3,7 +3,7 @@ from server import Server
 
 #### GLOBAL CONSTANTS ####
 
-LOCALADDR = ("localhost", 12345)
+LOCALADDR = ("localhost", 10000)
 
 #### MAIN FUNCTION ####
 
