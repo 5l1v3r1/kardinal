@@ -1,13 +1,14 @@
 from queue import Queue
 from server import Server
 
-#### GLOBAL CONSTANTS ####
+# -------------------------------- Global
 
-LOCALADDR = ("localhost", 10000)
+LOCALADDR = ("0.0.0.0", 10000)
 
-#### MAIN FUNCTION ####
+# -------------------------------- Main
 
-def main ():
+
+def main():
 
     server_queue = Queue()
     server = Server(server_queue, LOCALADDR)
