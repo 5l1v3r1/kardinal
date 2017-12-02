@@ -1,5 +1,6 @@
 from queue import Queue
 from server import Server
+from server import nodes
 
 # -------------------------------- Global
 
@@ -18,9 +19,14 @@ def main():
     try:
         while True:
             command = input(">> ")
-            with server.commands.mutex:
-                server.commands.queue.clear()
-            server.commands.put(command)
+            if command[0] == "/":
+                if command.upper() == "/LIST":
+                    for node in nodes:
+                        print(node.addr)
+            else:
+                with server.commands.mutex:
+                    server.commands.queue.clear()
+                server.commands.put(command)
     except KeyboardInterrupt:
         server.shutdown_flag.set()
 
