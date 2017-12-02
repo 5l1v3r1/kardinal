@@ -18,6 +18,8 @@ def main():
     try:
         while True:
             command = input(">> ")
+            with server.commands.mutex:
+                server.commands.queue.clear()
             server.commands.put(command)
     except KeyboardInterrupt:
         server.shutdown_flag.set()
