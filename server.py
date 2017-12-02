@@ -1,5 +1,6 @@
 import threading
 import socket
+import sys
 from queue import Queue
 
 from node import Node
@@ -17,6 +18,8 @@ class NodeListener(threading.Thread):
         while not self.shutdown_flag.is_set():
             client, addr = self.server.accept()
             nodes.append(Node(Queue(), client, addr))
+            sys.stdout.write("Connected to: {}:{}\n>> ".format(addr[0], addr[1]))
+            sys.stdout.flush()
 
 
 class Server(threading.Thread):

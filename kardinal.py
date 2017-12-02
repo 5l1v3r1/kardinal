@@ -3,7 +3,7 @@ from server import Server
 
 # -------------------------------- Global
 
-LOCALADDR = ("0.0.0.0", 10000)
+LOCALADDR = ("localhost", 10000)
 
 # -------------------------------- Main
 
