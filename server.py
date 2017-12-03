@@ -1,3 +1,11 @@
+"""
+Classes for server listening threads
+
+Author: Eternali
+Created: Dec 2, 2017
+Modified: Dec 2, 2017
+"""
+
 import threading
 import socket
 import sys

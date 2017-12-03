@@ -1,3 +1,10 @@
+"""
+Name: Kardinal
+Author: Eternali
+Date Created: Dec 2. 2017
+Date Modified: Dec 2, 2017
+"""
+
 from queue import Queue
 from server import Server
 from server import nodes
