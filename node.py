@@ -2,8 +2,8 @@
 Classes for node handler threads
 
 Author: Eternali
-Created: Dec 2, 2017
-Modified: Dec 2, 2017
+Date Created: Dec 2, 2017
+Date Modified: Dec 2, 2017
 """
 
 import threading

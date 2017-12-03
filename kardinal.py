@@ -6,12 +6,29 @@ Date Modified: Dec 2, 2017
 """
 
 from queue import Queue
-from server import Server
+from command import Command
 from server import nodes
+from server import Server
 
 # -------------------------------- Global
 
 LOCALADDR = ("localhost", 10000)
+
+# define valid utility commands
+
+def to_table(headers, contents, horiz_divide="\t\t"):
+    table = ""
+    table += "".join([header + horiz_divide for header in headers]) + "\n"
+    table += "\n".join([horiz_divide.join(str(col) for col in row) for row in contents])
+    return table
+
+commands = [
+    Command("LIST", "Show all connected nodes.",
+            (lambda: "\n{}\n".format(to_table(("IP ADDRESS", "PORT"), [node.addr for node in nodes]))))
+]
+# NOTE: must put help outside list literal to avoid "commands uninitialized" error
+commands.append(Command("HELP", "Show this help.",
+                        (lambda: "\n" + "\n".join([cmd.name + "\t\t" + cmd.desc for cmd in commands]) + "\n")))
 
 # -------------------------------- Main
 
@@ -25,15 +42,15 @@ def main():
 
     try:
         while True:
-            command = input(">> ")
-            if command[0] == "/":
-                if command.upper() == "/LIST":
-                    for node in nodes:
-                        print(node.addr)
+            requested_cmd = input(">> ")
+            if requested_cmd[0] == "/":
+                for cmd in commands:
+                    if requested_cmd[1:].upper() == cmd.name:
+                        print(cmd.todo())
             else:
                 with server.commands.mutex:
                     server.commands.queue.clear()
-                server.commands.put(command)
+                server.commands.put(requested_cmd)
     except KeyboardInterrupt:
         server.shutdown_flag.set()
 
