@@ -16,7 +16,7 @@ class NodeThread(threading.Thread):
         self.queue = queue
         self.daemon = True
         self.sock = sock
-        self.shutdown_flags = threading.Event()
+        self.shutdown_flag = threading.Event()
 
     def run(self):
         while not self.shutdown_flags.is_set():
@@ -25,6 +25,9 @@ class NodeThread(threading.Thread):
             if cmd is None:
                 break
             self.run_command(cmd)
+
+        self.sock.close()
+        return
 
     def run_command(self, cmd):
         self.sock.send(cmd.encode("utf-8"))
@@ -40,3 +43,6 @@ class Node:
 
         self.handler = NodeThread(queue, client)
         self.handler.start()
+
+    def shutdown():
+        self.handler.shutdown_flag.set()

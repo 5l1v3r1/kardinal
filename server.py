@@ -29,6 +29,10 @@ class NodeListener(threading.Thread):
             sys.stdout.write("Connected to: {}:{}\n>> ".format(addr[0], addr[1]))
             sys.stdout.flush()
 
+        sys.stdout.write("[**] Shutting down node thread.")
+        sys.stdout.flush()
+        return
+
 
 class Server(threading.Thread):
 
@@ -54,12 +58,16 @@ class Server(threading.Thread):
                 break
             self.run_command(cmd)
 
+        sys.stdout.write("[**] Shutting down server.")
+        sys.stdout.flush()
+        node_listener.shutdown_flag.set()
         for node in nodes:
-            node.shutdown_flag.set()
+            node.shutdown()
         self.server.close()
+        return
 
     def run_command(self, cmd):
         for node in nodes:
-            with node.queue.mutex:
-                node.queue.queue.clear()
+            # with node.queue.mutex:
+            #     node.queue.queue.clear()
             node.queue.put(cmd)
