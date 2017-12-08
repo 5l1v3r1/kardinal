@@ -68,6 +68,7 @@ class Server(threading.Thread):
 
     def run_command(self, cmd):
         for node in nodes:
-            # with node.queue.mutex:
-            #     node.queue.queue.clear()
-            node.queue.put(cmd)
+            if node.is_target:
+                # with node.queue.mutex:
+                #     node.queue.queue.clear()
+                node.queue.put(cmd)

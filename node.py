@@ -19,7 +19,7 @@ class NodeThread(threading.Thread):
         self.shutdown_flag = threading.Event()
 
     def run(self):
-        while not self.shutdown_flags.is_set():
+        while not self.shutdown_flag.is_set():
             cmd = self.queue.get()
             # if the command sent is None, end the thread
             if cmd is None:
@@ -36,10 +36,11 @@ class NodeThread(threading.Thread):
 
 class Node:
 
-    def __init__(self, queue, client, addr):
+    def __init__(self, queue, client, addr, is_target=True):
         self.queue = queue
         self.client = client
         self.addr = addr
+        self.is_target = is_target
 
         self.handler = NodeThread(queue, client)
         self.handler.start()
