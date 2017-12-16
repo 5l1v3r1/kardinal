@@ -46,10 +46,10 @@ def main():
         exit(0)
 
     def set_targets ():
-        print("Available nodes:")
+        print("\nAvailable nodes:")
         print("\n{}\n".format(to_table(("INDEX", "IP ADDRESS", "PORT"),
                  [(n + 1, node.addr[0], node.addr[1]) for n, node in enumerate(nodes)])))
-        print("\nCurrent targets:")
+        print("Current targets:")
         print("\n{}\n".format(to_table(("INDEX", "IP ADDRESS", "PORT"),
                  [(n + 1, node.addr[0], node.addr[1]) for n, node in enumerate(nodes) if node.is_target])))
         targets = [int(t) - 1 for t in input("Enter space separated list of indices: ").split(" ")]
