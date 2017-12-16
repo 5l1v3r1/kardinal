@@ -26,7 +26,7 @@ def to_table(headers, contents, horiz_divide="\t\t"):
 
 
 def calc_tab(cur_len, max_len):
-    return math.ceil((max_len - cur_len + 1) / TABSIZE) * "\t"
+    return (max_len - cur_len + 4) * " "
 
 
 # -------------------------------- Main
