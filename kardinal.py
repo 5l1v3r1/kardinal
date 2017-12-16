@@ -6,6 +6,7 @@ Date Modified: Dec 2, 2017
 """
 
 import math
+import sys
 from queue import Queue
 from command import Command
 from server import nodes
@@ -60,7 +61,7 @@ def main():
     commands = [
         Command("LIST", "Show all connected nodes.",
                 (lambda: "\n{}\n".format(to_table(("IP ADDRESS", "PORT"), [node.addr for node in nodes])))),
-        Command("CLEAR", "Clear the screen.", (lambda: chr(27) + "[2J")),
+        Command("CLEAR", "Clear the screen.", (lambda: sys.stderr.write("\x1b[2J\x1b[H"))),  # previously `chr(27) + "[2J" was working on windows, but not in zsh gnome-terminal
         Command("EXIT", "Shutdown Kardinal.", shutdown),
         Command("SET_TARGETS", "Set targets for next set of commands", set_targets),
         Command("LIST_TARGETS", "List all currently selected targets",
