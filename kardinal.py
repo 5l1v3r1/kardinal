@@ -65,13 +65,14 @@ def main():
         Command("EXIT", "Shutdown Kardinal.", shutdown),
         Command("SET_TARGETS", "Set targets for next set of commands", set_targets),
         Command("LIST_TARGETS", "List all currently selected targets",
-                (lambda: "\n{}\n".format(to_table(("IP ADDRESS", "PORT"), [node.addr for node in nodes if node.is_target]))))
+                (lambda: "\n{}\n".format(to_table(("IP ADDRESS", "PORT"), [node.addr for node in nodes if node.is_target])))),
+        Command("[node #s] [command]", "run a command on a comma separated list of nodes\ne.g. /1,2 ifconfig", tmp_command)
     ]
     # NOTE: must put help outside list literal to avoid "commands uninitialized" error
     commands.append(Command("HELP", "Show this help.",
                             (lambda: "\n" + "\n".join(["/" + cmd.name
-                            + calc_tab(len(cmd.name), max([len(c.name) for c in commands]))
-                            + cmd.desc for cmd in commands]) + "\n")))
+                            + "\n".join([calc_tab(len(cmd.name) if l == 0 else -TABSIZE-1, max([len(c.name) for c in commands]))
+                            + line for l, line in enumerate(cmd.desc.split("\n"))]) for cmd in commands]) + "\n")))
 
 
     server.start()
